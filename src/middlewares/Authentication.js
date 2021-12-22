@@ -21,6 +21,13 @@ const Authentication = (pool) => {
     }
 }
 
+const AuthenticatedOnly = (request, response, next) => {
+    if (request.authenticated && request.user) return next()
+
+    response.status(401).json({ ok: true, errors: ['Authentication is required']})
+}
+
 module.exports = {
-    Authentication
+    Authentication,
+    AuthenticatedOnly
 }
