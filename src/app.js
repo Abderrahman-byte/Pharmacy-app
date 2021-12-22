@@ -6,6 +6,8 @@ const apiRouter = require('./controllers/api')
 const app = (pool) => {
     const App = express()
 
+    App.use(express.json())
+
     App.use('/', MainRouter)
     App.use('/api', apiRouter(pool))
 
