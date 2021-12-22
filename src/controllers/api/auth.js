@@ -83,8 +83,7 @@ const getRegisterController = (pool) => {
 
 const getLogoutController = (pool) => {
     return (request, response) => {
-        if (request.sessionId) request.session.destroy()
-
+        request?.session?.destroy()
         response.json({ ok: true })
     }
 }
