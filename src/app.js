@@ -22,7 +22,8 @@ const app = (pool) => {
         saveUninitialized: false,
         resave: false,
         secret: process.env.SECRET_STUFF,
-        name: 'sessionid'
+        name: 'sessionid',
+        cookie: { maxAge: 3600000 * 24 * 30 }
     }))
 
     App.use(Authentication(pool))
