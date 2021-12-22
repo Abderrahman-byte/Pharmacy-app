@@ -10,7 +10,7 @@
 | /api/products | Products endpoints |
 
 
- - __/api/auth__ :
+### /api/auth :
 
 | Method | Endpoint | Payload | Returns |
 |---|---|---|---|
