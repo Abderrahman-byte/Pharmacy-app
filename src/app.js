@@ -1,11 +1,13 @@
 const express = require('express')
 
 const MainRouter = require('./routes/main')
+const apiRouter = require('./controllers/api')
 
-const app = () => {
+const app = (pool) => {
     const App = express()
 
-    App.get("/", MainRouter)
+    App.use('/', MainRouter)
+    App.use('/api', apiRouter(pool))
 
     return App
 }
