@@ -1,9 +1,35 @@
+const bcrypt = require('bcrypt')
+
 const { validateEmail, validatePassword } = require("../../utils/validators")
 const getAccountModels = require('../../models/account')
 
 const getLoginController = (pool) => {
-    return (request, response) => {
-        response.json({ message: 'this the login controller'})
+    const { getAccountByUserOrEmail } = getAccountModels(pool)
+
+    return async (request, response) => {
+        const { username, password } = request.body
+        const errors = []
+
+        if (!username || username.length <= 3) errors.push('Username field is required')
+        if (!password || password.length <= 0) errors.push('Password field is required')
+
+        if (errors.length > 0) return response.json({ ok: false, errors})
+
+        try {
+            const data = await getAccountByUserOrEmail(username)
+
+            if (!data || !bcrypt.compareSync(password, data?.password))
+                return response.status(400).json({ ok:false, errors: ['Wrong credentials']})
+
+            delete data.password
+            delete data.updated_date
+            delete data.last_login
+
+            response.json(data)
+        } catch (err) {
+            console.error(err)
+            response.json({ ok: false, errors: ['Something went wrong'] })
+        }
     }
 }
 
@@ -47,7 +73,7 @@ const getRegisterController = (pool) => {
                 errors.push('Something went wrong')
             }
 
-            response.status(401).json({ ok: false, errors})
+            response.status(400).json({ ok: false, errors})
         }
     }
 }
