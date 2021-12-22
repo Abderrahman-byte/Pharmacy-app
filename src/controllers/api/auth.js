@@ -25,6 +25,8 @@ const getLoginController = (pool) => {
             delete data.updated_date
             delete data.last_login
 
+            request.session.user_id = data.id
+
             response.json(data)
         } catch (err) {
             console.error(err)
@@ -59,6 +61,7 @@ const getRegisterController = (pool) => {
 
         try {
             const { id } = await createAccount(body)
+            request.session.user_id = data.id
             
             response.json({ ok : true , data: { id }})
         } catch (err) {
@@ -79,7 +82,11 @@ const getRegisterController = (pool) => {
 }
 
 const getLogoutController = (pool) => {
-    return (request, response) => {}
+    return (request, response) => {
+        if (request.sessionId) request.session.destroy()
+
+        response.json({ ok: true })
+    }
 }
 
 module.exports = (pool) => {
