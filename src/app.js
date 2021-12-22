@@ -1,11 +1,11 @@
 const express = require('express')
 
+const MainRouter = require('./routes/main')
+
 const app = () => {
     const App = express()
 
-    App.get("/", (request, response) => {
-        response.json({ message: 'welcome to pharmacy app by abderrahmane elasri.'})
-    })
+    App.get("/", MainRouter)
 
     return App
 }
