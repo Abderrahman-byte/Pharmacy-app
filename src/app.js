@@ -1,6 +1,7 @@
 const express = require('express')
 const expressSession = require('express-session')
 const pgConnectSession = require('connect-pg-simple')(expressSession)
+const cors = require('cors')
 
 require('dotenv').config()
 
@@ -12,6 +13,7 @@ const app = (pool) => {
     const App = express()
 
     App.use(express.json())
+    App.use(cors())
 
     App.use(expressSession({
         store: new pgConnectSession({
