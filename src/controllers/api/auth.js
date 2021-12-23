@@ -3,6 +3,20 @@ const bcrypt = require('bcrypt')
 const { validateEmail, validatePassword } = require("../../utils/validators")
 const getAccountModels = require('../../models/account')
 
+const getAuthUserData = (request, response) => {
+    const { authenticated, user } = request
+
+    if (authenticated && user) {
+        delete data.password
+        delete data.updated_date
+        delete data.last_login
+
+        return response.json({ ok:true, data: user })
+    }
+
+    response.json({ ok:false })
+}
+
 const getLoginController = (pool) => {
     const { getAccountByUserOrEmail } = getAccountModels(pool)
 
@@ -93,5 +107,6 @@ module.exports = (pool) => {
         loginController: getLoginController(pool),
         registerController: getRegisterController(pool),
         logoutController: getLogoutController(pool),
+        getAuthUserData: getAuthUserData
     }
 }
