@@ -1,23 +1,15 @@
-import '../styles/App.css';
+import { Route, Routes } from 'react-router'
+
+import MainPage from '../pages/Main.page'
+
+import '../styles/App.css'
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <Routes>
+            <Route path="/*" element={<MainPage />} />
+        </Routes>
+    )
 }
 
-export default App;
+export default App
