@@ -8,6 +8,7 @@ const authRouter = (pool) => {
 
     router.post('/login', loginController)
     router.post('/logout', logoutController)
+    router.get('/logout', logoutController)
     router.post('/register', registerController)
 
     return router
