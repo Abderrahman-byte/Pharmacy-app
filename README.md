@@ -14,6 +14,7 @@
 
 | Method | Endpoint | Payload | Returns |
 |---|---|---|---|
+| GET | / | | UserData |
 | POST | /login | username, password | UserData |
 | POST | /register | username, password, email, firstname, lastname, password2 | user_id |
 | GET | /logout |  |  |
@@ -24,7 +25,21 @@ UserData = {
     username,
     firstname,
     lastname,
+    is_admin,
     email,
     created_date
 }
 ```
+
+
+### /api/products :
+
+| Method | Endpoint | Payload | Returns |
+|---|---|---|---|
+| GET | / | page | List of ProductData |
+| GET | /:id | id | ProductDataWithDetails |
+| POST | / | title, price, unitesInStock, [description] |  |
+| PUT | /:id | title, price, unitesInStock, [description] |  |
+| DELETE | /:id |  |  |
+| POST | /:id/images | image |  |
+| DELETE | /:id/images/:id |  |  |
