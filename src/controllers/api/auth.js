@@ -7,9 +7,9 @@ const getAuthUserData = (request, response) => {
     const { authenticated, user } = request
 
     if (authenticated && user) {
-        delete data.password
-        delete data.updated_date
-        delete data.last_login
+        delete user.password
+        delete user.updated_date
+        delete user.last_login
 
         return response.json({ ok:true, data: user })
     }
@@ -75,18 +75,20 @@ const getRegisterController = (pool) => {
 
         try {
             const { id } = await createAccount(body)
-            request.session.user_id = data.id
+            request.session.user_id = id
             
             response.json({ ok : true , data: { id }})
         } catch (err) {
             const { constraint } = err
             const errors = []
 
+            
             if (constraint === 'account_username_key') {
                 errors.push('Account with the same username already exists')
             } else if (constraint === '') {
                 errors.push('Account with the same email already exists')
             } else {
+                console.log('[ERROR] ' + err)
                 errors.push('Something went wrong')
             }
 
