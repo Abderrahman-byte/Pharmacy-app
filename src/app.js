@@ -13,7 +13,10 @@ const app = (pool) => {
     const App = express()
 
     App.use(express.json())
-    App.use(cors())
+    App.use(cors({
+        origin: ['http://localhost:3000'],
+        credentials: true
+    }))
 
     App.use(expressSession({
         store: new pgConnectSession({
