@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom'
 import App from './components/App'
 import { AuthProvider } from './context/AuthContext'
 
-import './styles/index.css'
+import './styles/index.scss'
 // import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
