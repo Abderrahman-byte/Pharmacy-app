@@ -1,19 +1,12 @@
 import React, { useContext, useState } from 'react'
 
 import { postRequest } from '../utils/http'
-import { fields } from '../utils/register'
+import { registerFields, getfieldsComponents } from '../utils/forms'
 import { AuthContext } from '../context/AuthContext'
 import { useLocation, useNavigate } from 'react-router'
 
 import '../styles/forms.scss'
 import '../styles/RegisterForm.scss'
-
-const getRegisterfields = (onChangeCallback) => {
-    return fields.map((fieldData) => <div key={fieldData.name} className='form-div'>
-        <label htmlFor={fieldData.name + '-input'}>{fieldData.displayName}</label>
-        <input onChange={onChangeCallback} type={fieldData.type} name={fieldData.name} id={fieldData.name + '-input'} required={fieldData.isRequired} />
-    </div>)
-}
 
 const RegisterForm = () => {
     const [formData, setData] = useState({})
@@ -52,7 +45,7 @@ const RegisterForm = () => {
     }
 
     return (<form className='RegisterForm' onSubmit={submitData} >
-        {getRegisterfields(updateData)}
+        {getfieldsComponents(registerFields, updateData)}
 
         {errors && errors.length > 0 ? (
             <div className='errors-div'>
