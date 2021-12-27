@@ -1,8 +1,12 @@
 import React from 'react'
 
+import Header from '../components/Header'
+
 const MainPage = () => {
     return (
         <div className="App">
+            <Header />
+
             <header className="App-header">
                 <p>
                     Edit <code>src/App.js</code> and save to reload.

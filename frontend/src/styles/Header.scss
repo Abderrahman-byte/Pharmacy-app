@@ -1,0 +1,92 @@
+@import './variables.scss';
+
+.Header {
+    padding: 1em 0;
+    background-color: whitesmoke;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+
+    .logo-div {
+        .logo {
+            text-decoration: none;
+            font-size: 2rem;
+            font-weight: 700;
+            color: $card-bg-1;
+            letter-spacing: .1em;
+            font-style: italic;
+        }
+    }
+
+    .nav-bar {
+        display: flex;
+        align-items: flex-end;
+
+        .auth-btn-div {
+            margin-right: 1em;
+            display: flex;
+            align-items: center;
+
+            a {
+                display: inline-block;
+                width: 100%;
+                text-align: center;
+                padding: .6em 1em;
+                font-size: 1rem;
+                letter-spacing: .1em;
+                border-radius: 5px;
+                border: 0;
+                background-color: $button-pg-1;
+                color: white;
+                font-weight: 700;
+                cursor: pointer;
+                text-decoration: none;
+                margin-right: 1em;
+            }    
+            
+            a:last-child {
+                margin-right: 0;
+            }
+        }
+
+        .cart-btn-div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-sizing: content-box;
+            padding: .1em;
+
+            img {
+                width: 35px;
+                height: 35px;
+            }
+        }
+
+        .logged-div {
+            margin-right: 1em;
+            
+            p {
+                color: gray;
+                text-align: center;
+                margin-bottom: .5em;
+            }
+
+            a {
+                display: block;
+                text-align: center;
+                display: inline-block;
+                width: 100%;
+                text-align: center;
+                padding: .4em 0;
+                font-size: 1rem;
+                letter-spacing: .1em;
+                border-radius: 5px;
+                border: 0;
+                background-color: $button-pg-1;
+                color: white;
+                font-weight: 700;
+                cursor: pointer;
+                text-decoration: none;
+                margin-right: 1em;
+            }
+        }
+    }
+}
