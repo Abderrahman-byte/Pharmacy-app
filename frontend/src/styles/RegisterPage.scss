@@ -1,0 +1,42 @@
+@import './variables.scss';
+
+.RegisterPage {
+    padding: 3em 1em;
+
+    .form-card {
+        margin-right: auto;
+        margin-left: auto;
+        border-radius: 8px;
+        width: fit-content;
+        padding: 1em 4em;
+        background-color: white;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+
+        .form-title {
+            // padding-bottom: .5em ;
+            text-align: center;
+            padding: .4em 0;
+            letter-spacing: .1em;
+        }
+
+        hr {
+            border-top: 1px solid $secondary-txt;
+        }
+
+        .info-div {
+            padding: 1em 0;
+            text-align: center;
+            letter-spacing: .1em;
+
+            p {
+                margin-bottom: .5em;
+            }
+
+            a {
+                text-decoration: none;
+                color: $card-bg-1;
+                font-weight: 800;
+            }
+        }
+    }
+}

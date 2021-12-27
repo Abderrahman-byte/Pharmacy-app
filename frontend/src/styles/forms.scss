@@ -1,0 +1,58 @@
+@import './variables.scss';
+
+.form {
+    padding: 1.5em 0;
+
+    .form-div {
+        margin-bottom: 1em;
+
+        label, input, textarea {
+            display: block;
+            margin-bottom: .3em;
+        }
+
+        input, textarea {
+            min-width: 400px;
+        }
+
+        .form-input {
+            border: 1px solid $secondary-txt;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            padding: .4em .5em;
+        }
+        
+        .form-input:focus {
+            outline: 2px solid $card-bg-1;
+            border: 1px solid white;
+        }
+
+    }
+
+    .errors-div {
+        margin: 1em 0;
+
+        p {
+            background-color: red;
+            color: white;
+            padding: .5em;
+            margin-bottom: .5em;
+            max-width: 400px;
+            border-radius: 5px;
+        }
+    }
+    
+    .submit-btn {
+        display: block;
+        width: 100%;
+        padding: .6em 0;
+        font-size: 1.1rem;
+        letter-spacing: .1em;
+        border-radius: 20px;
+        border: 0;
+        background-color: $button-pg-1;
+        color: white;
+        font-weight: 700;
+        cursor: pointer;
+    }
+}
