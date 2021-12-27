@@ -34,7 +34,7 @@ const LoginForm = () => {
     }
 
     return (
-        <form onSubmit={submitCallback} className='LoginForm'>
+        <form onSubmit={submitCallback} className='LoginForm form'>
             {getfieldsComponents(loginFields, updatedData)}
             
             {errors && errors.length > 0 ? (
@@ -43,7 +43,7 @@ const LoginForm = () => {
                 </div>
             ) : null}
 
-            <button className='btn btn-submit'>Login</button>
+            <button className='btn submit-btn'>Login</button>
         </form>
     )
 }
