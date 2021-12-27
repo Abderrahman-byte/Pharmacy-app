@@ -1,12 +1,15 @@
 import React from 'react'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, Navigate } from 'react-router-dom'
 
+import LoginPage from './Login.page'
 import RegisterPage from './Register.page'
 
 const AuthPage = () => {
     return (
         <Routes>
-            <Route exact path="/signup" element={<RegisterPage />} />
+            <Route index element={<Navigate to='./login' />} />
+            <Route exact path='/signup' element={<RegisterPage />} />
+            <Route exact path='/login' element={<LoginPage />} />
         </Routes>
     )
 }
