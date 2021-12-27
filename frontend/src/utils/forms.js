@@ -2,8 +2,8 @@ import React from 'react'
 
 export const getfieldsComponents = (fields, onChangeCallback) => {
     return fields.map((fieldData) => <div key={fieldData.name} className='form-div'>
-        <label htmlFor={fieldData.name + '-input'}>{fieldData.displayName}</label>
-        <input onChange={onChangeCallback} type={fieldData.type} name={fieldData.name} id={fieldData.name + '-input'} required={fieldData.isRequired} />
+        {/* <label htmlFor={fieldData.name + '-input'}>{fieldData.displayName}</label> */}
+        <input autoComplete='off' placeholder={fieldData.displayName} onChange={onChangeCallback} type={fieldData.type} name={fieldData.name} className='form-input' id={fieldData.name + '-input'} required={fieldData.isRequired} />
     </div>)
 }
 
