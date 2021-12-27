@@ -44,7 +44,7 @@ const RegisterForm = () => {
         setTimeout(() => navigate(location?.state?.from || '/'), 0)
     }
 
-    return (<form className='RegisterForm' onSubmit={submitData} >
+    return (<form className='RegisterForm form' onSubmit={submitData} >
         {getfieldsComponents(registerFields, updateData)}
 
         {errors && errors.length > 0 ? (
