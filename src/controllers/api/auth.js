@@ -41,7 +41,7 @@ const getLoginController = (pool) => {
 
             request.session.user_id = data.id
 
-            response.json(data)
+            response.json({ ok: true, data })
         } catch (err) {
             console.error(err)
             response.json({ ok: false, errors: ['Something went wrong'] })
@@ -85,7 +85,7 @@ const getRegisterController = (pool) => {
             
             if (constraint === 'account_username_key') {
                 errors.push('Account with the same username already exists')
-            } else if (constraint === '') {
+            } else if (constraint === 'account_email_key') {
                 errors.push('Account with the same email already exists')
             } else {
                 console.log('[ERROR] ' + err)
