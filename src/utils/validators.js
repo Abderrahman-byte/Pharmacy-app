@@ -5,7 +5,13 @@ const validatePassword = (password) => {
     return /(?=.*[A-Za-z].*)(?=.*\d.*)(?=.{8,})/.test(password)
 }
 
+const isNone = (value) => value === '' || value === null || value === undefined
+
+const isNumber = (value) => !isNone(value) && !isNaN(Number(value))
+
 module.exports = {
     validateEmail,
-    validatePassword
+    validatePassword,
+    isNone,
+    isNumber
 }
