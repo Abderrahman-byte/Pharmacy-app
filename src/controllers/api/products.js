@@ -46,9 +46,30 @@ const deleteProductController = (pool) => {
     }
 }
 
+const getProductsController = (pool) => {
+    const itemsPerPage = 10
+    const { getProductsList } = productModels(pool)
+
+    return async (request, response) => {
+        let { page } = request.query
+        page = !isNone(page) && isNumber(page) && page > 0 ? page : 1
+
+        const offset = (page - 1) * itemsPerPage
+
+        try {
+            const data = await getProductsList(itemsPerPage, offset)
+            response.json({ ok: true, itemsPerPage, data})
+        } catch (err) {
+            console.log('[ERROR] ' + err)
+            response.json({ ok:false, errors: ['Something went wrong, please try later']})
+        }
+    }
+}
+
 module.exports = (pool) => {
     return {
         postProduct : postProductController(pool),
-        deleteProduct: deleteProductController(pool)
+        deleteProduct: deleteProductController(pool),
+        getProducts : getProductsController(pool)
     }
 }

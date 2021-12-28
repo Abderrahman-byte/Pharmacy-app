@@ -37,9 +37,20 @@ const deleteProduct = (pool) => {
     }
 }
 
+// TODO : MUST add images
+const getProductsList = (pool) => {
+    return async (limit = 10, offset = 0) => {
+        const response = await pool.query(`SELECT p.id, p.title, p.price, p.created_date, i.quantity
+        FROM product AS p JOIN product_inventory AS i ON p.inventory_id = i.id 
+        ORDER BY created_date DESC LIMIT $1 OFFSET $2`, [limit, offset])
+        return response.rows || []
+    }
+}
+
 module.exports = (pool) => {
     return {
         createProduct: createProduct(pool),
-        deleteProduct: deleteProduct(pool)
+        deleteProduct: deleteProduct(pool),
+        getProductsList: getProductsList(pool)
     }
 }
