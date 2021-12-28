@@ -1,13 +1,14 @@
+import React from 'react'
 import { Route, Routes } from 'react-router'
 
-import MainPage from '../pages/Main.page'
-import AdminPage from '../pages/Admin.page'
-import AuthPage from '../pages/Auth.page'
+import MainPage from '../pages/Main.pages'
+import AdminPage from '../pages/Admin.pages'
+import AuthPage from '../pages/Auth.pages'
 import AuthenticatedOnly from './AuthenticatedOnly'
 
 import '../styles/App.css'
 
-function App() {
+const App = () => {
     return (
         <Routes>
 			<Route path="/admin/*" element={<AuthenticatedOnly><AdminPage /></AuthenticatedOnly>} />
