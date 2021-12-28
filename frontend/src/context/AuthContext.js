@@ -9,20 +9,19 @@ export const AuthProvider = ({ children}) => {
     const [userData, setUserData] = useState(undefined)
 
     useEffect(async () => {
-        const data = await getRequest('api/auth')
+        const response = await getRequest('api/auth')
 
-        if (!data) {
+        if (!response || !response.ok || !response.data) {
             setAuth(false)
             setUserData(null)
         } else {
             setAuth(true)
-            setUserData(data)
+            setUserData(response.data)
         }
-
     }, [])
 
     return (
-        <AuthContext.Provider value={{ authenticated, userData }} >
+        <AuthContext.Provider value={{ authenticated, userData, setUserData, setAuth }} >
             {children}
         </AuthContext.Provider>
     )

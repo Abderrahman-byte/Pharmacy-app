@@ -1,17 +1,17 @@
 import React from 'react'
+import { Route, Routes } from 'react-router-dom'
 
 import AdminOnly from '../components/AdminOnly'
+import NewProductPage from './NewProduct.page'
+import ProductsAdminPage from './ProductsAdmin.page'
 
 const AdminPage = () => {
     return (
         <AdminOnly>
-            <div className="AdminPage">
-                <p>
-                    This an admin page
-                    <br />
-                    Because you're an admin we let you in.
-                </p>
-            </div>
+            <Routes>
+                <Route exact path='/products' element={<ProductsAdminPage />} />
+                <Route exact path='/products/new' element={<NewProductPage />} />
+            </Routes>
         </AdminOnly>
     )
 }
