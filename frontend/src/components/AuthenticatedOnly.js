@@ -10,7 +10,7 @@ const AuthenticatedOnly = ({ children }) => {
     if (authenticated === undefined) return (<></>)
     else if (authenticated) return (<>{children}</>) 
 
-    return (<Navigate to="/auth/signup" state={{ from: location?.pathname }} />)
+    return (<Navigate to="/auth/login" state={{ from: location?.pathname }} />)
 }
 
 export default AuthenticatedOnly
