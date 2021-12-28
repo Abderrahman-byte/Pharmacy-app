@@ -25,12 +25,30 @@ const postProductController = (pool) => {
             console.log('[ERROR] ' + err)
             response.json({ ok:false, errors: ['Something went wrong, please try later']})
         }
+    }
+}
 
+const deleteProductController = (pool) => {
+    const { deleteProduct } = productModels(pool)
+    
+    return async (request, response) => {
+        const { id } = request.params
+        
+        try {
+            const deleted = await deleteProduct(id)
+            
+            if (deleted) response.json({ ok: true })
+            else response.json({ ok:false, errors: ['Product not found']})
+        } catch (err) {
+            console.log('[ERROR] ' + err)
+            response.json({ ok:false, errors: ['Something went wrong, please try later']})
+        }
     }
 }
 
 module.exports = (pool) => {
     return {
-        postProduct : postProductController(pool)
+        postProduct : postProductController(pool),
+        deleteProduct: deleteProductController(pool)
     }
 }

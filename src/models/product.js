@@ -14,7 +14,7 @@ const createProduct = (pool) => {
                 return null
             }
 
-            return createInventoryResponse.rows[0]
+            return createProductResponse.rows[0]
         } catch (err) {
             await pool.query('DELETE FROM product_inventory WHERE id = $1', [inventoryId])
             throw err
@@ -23,8 +23,23 @@ const createProduct = (pool) => {
     }
 }
 
+const deleteProduct = (pool) => {
+    return async (id) => {
+        const deleteProductResponse = await pool.query('DELETE FROM product WHERE id = $1 RETURNING inventory_id', [id])
+        
+        if (deleteProductResponse?.rows?.length <= 0) return false
+
+        const inventoryId = deleteProductResponse.rows[0].inventory_id
+
+        const deleteInventoryResponse = await pool.query('DELETE FROM product_inventory WHERE id = $1', [inventoryId])
+
+        return deleteInventoryResponse.rowCount > 0
+    }
+}
+
 module.exports = (pool) => {
     return {
-        createProduct: createProduct(pool)
+        createProduct: createProduct(pool),
+        deleteProduct: deleteProduct(pool)
     }
 }
