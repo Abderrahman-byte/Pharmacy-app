@@ -6,7 +6,7 @@ const cors = require('cors')
 require('dotenv').config()
 
 const MainRouter = require('./routes/main')
-const apiRouter = require('./controllers/api')
+const apiRouter = require('./routes/api')
 const { Authentication } = require('./middlewares/Authentication')
 
 const app = (pool) => {
