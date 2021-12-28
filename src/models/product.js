@@ -47,10 +47,52 @@ const getProductsList = (pool) => {
     }
 }
 
+const updateProduct = (pool) => {
+    const allowedFields = ['title', 'description', 'quantity', 'price']
+    const productAllowedFields = ['title', 'description', 'price']
+    const invenoryAllowedFields = ['quantity']
+
+    return async (id, data) => {
+        const filteredData = Object.entries(data).filter(entry => allowedFields.includes(entry[0]))
+        const productData = Object.entries(data).filter(entry => productAllowedFields.includes(entry[0]))
+        const inventoryData = Object.entries(data).filter(entry => invenoryAllowedFields.includes(entry[0]))
+        let productUpdated = true
+        let inventoryUpdated = true
+        let inventoryId = null
+
+        if (filteredData.length <= 0) return false
+
+        if (productData.length > 0) {
+            const setStatement = productData.map((entry, i) => `${entry[0]} = $${i + 2}`)
+            const query = `UPDATE product SET ${setStatement.join(' ,')} WHERE id = $1 RETURNING inventory_id`
+            const response = await pool.query(query, [id, ...productData.map(e => e[1])])
+            productUpdated = response.rowCount > 0
+            inventoryId = response?.rows?.length > 0 ? response.rows[0].inventory_id : null
+        }
+
+        if (inventoryData.length > 0 && inventoryId === null) {
+            const response = await pool.query('SELECT * FROM product WHERE id = $1', [id])
+            inventoryId = response?.rows?.length > 0 ? response.rows[0].inventory_id : null
+        }
+        
+        if (inventoryData.length > 0) {
+            if (inventoryId === null) return false
+            
+            const setStatement = inventoryData.map((entry, i) => `${entry[0]} = $${i + 2}`)
+            const query = `UPDATE product_inventory SET ${setStatement.join(' ,')} WHERE id = $1`
+            const response = await pool.query(query, [inventoryId, ...inventoryData.map(entry => entry[1])])
+            inventoryUpdated = response.rowCount > 0
+        }
+
+        return inventoryUpdated && productUpdated
+    }
+}
+
 module.exports = (pool) => {
     return {
         createProduct: createProduct(pool),
         deleteProduct: deleteProduct(pool),
-        getProductsList: getProductsList(pool)
+        getProductsList: getProductsList(pool),
+        updateProduct: updateProduct(pool)
     }
 }
