@@ -1,4 +1,4 @@
-const { uploadFile } = require('../../helpers/storage')
+const { uploadFile, destroyFile } = require('../../helpers/storage')
 const productModels = require('../../models/product')
 const { isImage, deleteFiles } = require('../../utils/file')
 const { isNumber, isNone } = require('../../utils/validators')
@@ -144,6 +144,35 @@ const postProductImageController = (pool) => {
     }
 }
 
+const deleteProductImageController = (pool) => {
+    const { getImages, deleteImage } = productModels(pool)
+
+    return async (request, response) => {
+        const { ids } = request.body
+        const errors = []
+
+        // if (!ids || !Array.isArray(ids) || ids.length <= 0) errors.push('Ids field is required')
+
+        if (!ids || !Array.isArray(ids) || ids.length <= 0) 
+            return response.json({ ok: false, errors: ['Ids field is required']})
+        
+        const data = await getImages(ids)
+
+        if (data.length <= 0) return response.json({ ok: false, errors: ['No image found']})
+
+        for (let image of data) {
+            try {
+                await destroyFile(image.public_id)
+                await deleteImage(image.id)
+            } catch (err) {
+                console.log(err)
+            }
+        }
+
+        response.json({ ok: true })
+    }
+}
+
 module.exports = (pool) => {
     return {
         postProduct : postProductController(pool),
@@ -151,5 +180,6 @@ module.exports = (pool) => {
         getProducts : getProductsController(pool),
         updateProduct: updateProductController(pool),
         postProductImage: postProductImageController(pool),
+        deleteProductImage: deleteProductImageController(pool)
     }
 }

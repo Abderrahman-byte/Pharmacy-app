@@ -114,6 +114,31 @@ const addProductImages = (pool) => {
     }
 }
 
+const getImages = (pool) => {
+    return async (ids) => {
+        if (!ids || !Array.isArray(ids) || ids.length <= 0) return []
+
+        const query = await pool.query(`SELECT id, public_id, url FROM product_image WHERE id in (${ids.map((id, i) => `$${i + 1}`).join(',')})`, ids)
+        return query?.rows || []
+    }
+}
+
+const deleteImages = (pool) => {
+    return async (ids) => {
+        if (!ids || !Array.isArray(ids) || ids.length <= 0) return []
+
+        const query = await pool.query(`DELETE FROM product_image WHERE id in (${ids.map((id, i) => `$${i + 1}`).join(',')})`, ids)
+        return query?.rowCount > 0
+    }
+}
+
+const deleteImage = (pool) => {
+    return async (id) => {
+        const query = await pool.query(`DELETE FROM product_image WHERE id = $1`, [id])
+        return query?.rowCount > 0
+    }
+}
+
 module.exports = (pool) => {
     return {
         createProduct: createProduct(pool),
@@ -121,6 +146,9 @@ module.exports = (pool) => {
         getProductsList: getProductsList(pool),
         updateProduct: updateProduct(pool),
         addProductImage: addProductImage(pool),
-        addProductImages: addProductImages(pool)
+        addProductImages: addProductImages(pool),
+        getImages: getImages(pool),
+        deleteImages: deleteImages(pool),
+        deleteImage: deleteImage(pool),
     }
 }
