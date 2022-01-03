@@ -1,4 +1,6 @@
+const { uploadFile } = require('../../helpers/storage')
 const productModels = require('../../models/product')
+const { isImage, deleteFiles } = require('../../utils/file')
 const { isNumber, isNone } = require('../../utils/validators')
 
 const postProductController = (pool) => {
@@ -95,11 +97,59 @@ const updateProductController = (pool) => {
     }
 }
 
+// FIXME : Should check if product exists and if there is enaugh images before storing them in the cloud
+const postProductImageController = (pool) => {
+    const { addProductImages } = productModels(pool)
+    const maxImages = 4
+
+    return async (request, response) => {
+        const { id } = request.params
+        const images = Array.isArray(request?.files?.images) ? request?.files?.images : [request?.files?.images]
+        const errors = []
+        const imagesData = []
+
+        if (images.length > maxImages ) errors.push(`Max number of images ${maxImages}`)
+
+        for (let image of images) {
+            const isImg = await isImage(image.path)
+
+            if (!isImg) {
+                errors.push('All files must be images')
+                break
+            }
+        }
+
+        if (errors.length > 0) {
+            deleteFiles(images.map(img => img.path))
+            return response.json({ ok: false, errors })
+        }
+
+        for (let image of images) {
+            const data = await uploadFile(image.path)
+            imagesData.push({ url: data.secure_url, public_id: data.public_id })
+        }
+
+        try {
+            const data = await addProductImages(id, imagesData)
+            response.json({ ok: true , data })
+        } catch (error) {
+            if (error.constraint === 'product_image_product_id_fkey') {
+                response.status(404).json({ ok: false, errors: ['Product Not Found']})
+            } else {
+                response.status(500).json({ ok: false, errors: ['Something went wrong']})
+            }
+        }
+        
+        deleteFiles(images.map(img => img.path))
+    }
+}
+
 module.exports = (pool) => {
     return {
         postProduct : postProductController(pool),
         deleteProduct: deleteProductController(pool),
         getProducts : getProductsController(pool),
-        updateProduct: updateProductController(pool)
+        updateProduct: updateProductController(pool),
+        postProductImage: postProductImageController(pool),
     }
 }
