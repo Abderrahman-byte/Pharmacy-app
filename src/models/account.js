@@ -13,7 +13,7 @@ const getCreateAccount = (pool) => {
 
 const getAccountByUserOrEmail = (pool) => {
     return async (id) => {
-        const query = await pool.query(`SELECT id, username, fname as firstname, lname as lastname, email, password, created_date, updated_date, last_login 
+        const query = await pool.query(`SELECT id, username, fname as firstname, lname as lastname, email, password, created_date, updated_date, last_login, is_admin
         FROM account WHERE username = $1 OR email = $1`, [id])
 
         return query?.rows?.length > 0 ? query?.rows[0] : null
