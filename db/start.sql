@@ -1,7 +1,7 @@
-DROP TABLE IF EXISTS account;
-DROP TABLE IF EXISTS product_image;
-DROP TABLE IF EXISTS product;
-DROP TABLE IF EXISTS product_inventory;
+DROP TABLE IF EXISTS account CASCADE;
+DROP TABLE IF EXISTS product_image CASCADE;
+DROP TABLE IF EXISTS product CASCADE;
+DROP TABLE IF EXISTS product_inventory CASCADE;
 
 CREATE TABLE account (
     id SERIAL PRIMARY KEY,
@@ -37,6 +37,7 @@ CREATE TABLE product (
 
 CREATE TABLE product_image (
     id SERIAL PRIMARY KEY,
+    public_id VARCHAR NOT NULL,
     url TEXT NOT NULL,
     product_id INT NOT NULL REFERENCES product (id) ON DELETE CASCADE
 );
