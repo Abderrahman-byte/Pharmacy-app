@@ -88,11 +88,39 @@ const updateProduct = (pool) => {
     }
 }
 
+const addProductImage = (pool) => {
+    return async (id, public_id, url) => {
+        const query = await pool.query(`INSERT INTO product_image (product_id, public_id, url) VALUES ($1, $2, $3) RETURNING id`, [id, public_id, url])
+
+        return query.rows.length > 0 ? query.rows[0].id : null
+    }
+}
+
+const addProductImages = (pool) => {
+    return async (id, images) => {
+        const imagesData = Array.isArray(images) ? images.filter(img => 'url' in img && 'public_id' in img) : []
+
+        if (imagesData.length <= 0) return null
+
+        const query = `INSERT INTO product_image (product_id, public_id, url) VALUES ${imagesData.map((v, i) => `($${3 * i + 1}, $${3 * i + 2}, $${3 * i + 3})`).join(', ')} RETURNING id, url`
+        const values = imagesData.reduce((arr, img) => {
+            arr.push(id, img.public_id, img.url)
+            return arr
+        }, [])
+
+        const response = await pool.query(query, values)
+
+        return response.rows || []
+    }
+}
+
 module.exports = (pool) => {
     return {
         createProduct: createProduct(pool),
         deleteProduct: deleteProduct(pool),
         getProductsList: getProductsList(pool),
-        updateProduct: updateProduct(pool)
+        updateProduct: updateProduct(pool),
+        addProductImage: addProductImage(pool),
+        addProductImages: addProductImages(pool)
     }
 }
