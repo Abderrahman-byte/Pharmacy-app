@@ -10,7 +10,7 @@
             letter-spacing: .1em;
         }
 
-        div {
+        & > div {
             width: fit-content;
         }
     }

@@ -1,0 +1,40 @@
+@import './variables.scss';
+
+.ImageProduct {
+    width: 175px;
+    border: 3px solid $secondary-txt;
+    position: relative;
+    margin-right: 5%;
+    margin-bottom: 1em;
+    border-radius: 5px;
+
+    &:nth-child(2n) {
+        margin-right: 0 !important;
+    }
+
+    img {
+        object-fit: fill;
+        height: 100%;
+        opacity: .7;
+    }
+
+    &:hover {
+        img {
+            opacity: 1;
+        }
+    }
+    
+    button {
+        position: absolute;
+        top: 1%;
+        right: 1%;
+        cursor: pointer;
+        background: transparent;
+        border: none;
+
+        svg {
+            font-size: 1.5rem;
+            color: $secondary-txt;
+        }
+    }
+}

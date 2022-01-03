@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
 import { getfieldsComponents, productFields } from '../utils/forms'
+import ImageProduct from './ImageProduct'
 
-const ProductForm = ({ submitCallback, btnText, initValue, errors }) => {
+import '../styles/ProductForm.scss'
+
+const ProductForm = ({ submitCallback, btnText, initValue, errors, imageInputChanged, images, removeImage }) => {
     const [formData, setFormData] = useState({})
 
     useEffect(() => {
@@ -23,8 +28,20 @@ const ProductForm = ({ submitCallback, btnText, initValue, errors }) => {
     }
 
     return (
-        <form onSubmit={submitForm} className="form product-form">
+        <form onSubmit={submitForm} className="form ProductForm">
             {getfieldsComponents(productFields, updatedData, initValue)}
+
+            <div className='form-div'>
+                <label className='images-label' htmlFor='product-images-input' >
+                <FontAwesomeIcon icon={faPlus} /> Add Image</label>
+                <input onChange={imageInputChanged} type='file' accept='image/*' id='product-images-input'/>
+            </div>
+
+            {images && images.length > 0 ? (
+                <div className='images form-div'>
+                    {images.map((image,i) => <ImageProduct removeImageCallback={() => removeImage(image.id || i)} key={i} url={image.url} />)}
+                </div>
+            ): null} 
 
             {errors && errors.length > 0 ? (
                 <div className='errors-div'>

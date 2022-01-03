@@ -1,0 +1,28 @@
+@import './variables.scss';
+
+.ProductForm {
+    .form-div {
+        max-width: fit-content;
+    }
+
+    #product-images-input {
+        display: none;
+    }
+
+    .form-div.images {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .images-label {
+        padding: .6em 1em;
+        font-size: 1.1rem;
+        letter-spacing: .1em;
+        border-radius: 20px;
+        border: 0;
+        background-color: $button-pg-1;
+        color: white;
+        font-weight: 700;
+        cursor: pointer;
+    }
+}
