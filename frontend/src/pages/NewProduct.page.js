@@ -1,4 +1,4 @@
-import React, { createRef, useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { v4 as uuidV4 } from 'uuid'
 import ProductForm from '../components/ProductForm'
@@ -46,9 +46,10 @@ const NewProductPage = () => {
             if (imagesData.ok && imagesData.data ) data.images = [...imagesData.data]
         }
 
-        navigate(`/admin/products/${response?.data?.id}/edit`, {
-            state: { initData: { ...data } }
-        })
+        navigate(`/admin/products/${response?.data?.id}/edit`)
+        // navigate(`/admin/products/${response?.data?.id}/edit`, {
+        //     state: { initData: { ...data } }
+        // })
     }
 
     const removeImage = useCallback((id) => {
