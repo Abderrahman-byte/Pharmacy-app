@@ -173,6 +173,27 @@ const deleteProductImageController = (pool) => {
     }
 }
 
+const getProductDetailsController = (pool) => {
+    const { getProduct } = productModels(pool)
+
+    return async (request, response) => {
+        const { id } = request.params
+
+        try {
+            const productData = await getProduct(id)
+
+            productData.images = productData.images.filter(img => img.id && img.url)
+
+            if (!productData) return response.status(404).json({ ok: false, errors: ['Product not found']})
+
+            response.json({ ok : true, data: productData })
+        } catch (err) {
+            console.log('[ERROR] ' + err)
+            response.status(500).json({ ok: false, errors: ['Something went wrong']})
+        }
+    }
+}
+
 module.exports = (pool) => {
     return {
         postProduct : postProductController(pool),
@@ -180,6 +201,7 @@ module.exports = (pool) => {
         getProducts : getProductsController(pool),
         updateProduct: updateProductController(pool),
         postProductImage: postProductImageController(pool),
-        deleteProductImage: deleteProductImageController(pool)
+        deleteProductImage: deleteProductImageController(pool),
+        getProductDetails: getProductDetailsController(pool)
     }
 }

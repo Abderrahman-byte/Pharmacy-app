@@ -139,6 +139,19 @@ const deleteImage = (pool) => {
     }
 }
 
+const getProduct = (pool) => {
+    return async (id) => {
+        const query = `select p.id, p.title, p.price, p.description, p.created_date, i.quantity, json_agg (json_build_object('id', im.id, 'url', im.url)) as images
+        from product as p
+        LEFT join product_inventory as i on p.inventory_id = i.id
+        LEFT join product_image as im on p.id = im.product_id 
+        WHERE p.id = $1 GROUP BY p.id, p.title, p.price, p.created_date, i.quantity;`
+
+        const response = await pool.query(query, [id])
+        return response?.rows?.length > 0 ? response.rows[0] : null
+    }
+}
+
 module.exports = (pool) => {
     return {
         createProduct: createProduct(pool),
@@ -150,5 +163,6 @@ module.exports = (pool) => {
         getImages: getImages(pool),
         deleteImages: deleteImages(pool),
         deleteImage: deleteImage(pool),
+        getProduct: getProduct(pool)
     }
 }
