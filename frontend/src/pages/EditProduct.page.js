@@ -6,6 +6,8 @@ import ProductForm from '../components/ProductForm'
 import { getChangedData } from '../utils/generic'
 import { apiHttpRequest, getRequest, postFormData } from '../utils/http'
 
+// TODO : Display message that the product is saved
+
 const EditProductPage = () => {
     const { id } = useParams()
     const { state } = useLocation()

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import ProductsTable from '../components/ProductsTable'
 
 import { getRequest } from '../utils/http'
 
@@ -15,8 +16,10 @@ const ProductsAdminPage = () => {
     }, [])
 
     return (
-        <div>
-            products page
+        <div className='ProductsAdminPage'>
+            <div className='container'>
+                <ProductsTable products={productsList} />
+            </div>
         </div>
     )
 }

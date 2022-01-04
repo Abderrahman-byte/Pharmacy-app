@@ -1,0 +1,42 @@
+@import './variables.scss';
+
+.ProductsTable {
+    border-collapse: collapse;
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 0 auto;
+
+    th, td {
+        padding: 1em 1em;
+        border-collapse: collapse;
+    }
+
+    thead {
+        background-color: $card-bg-1;
+    }
+    
+    th {
+        color: whitesmoke;
+        letter-spacing: .1em;
+        text-align: start;
+    }
+
+    tbody {
+        background-color: white;
+    }
+    
+    .more-btn {
+        background-color: $card-bg-1;
+        text-align: center;
+        cursor: pointer;
+        color: whitesmoke;
+        letter-spacing: .1em;
+        font-size: 1rem;
+        
+        &:hover {
+            transition: .4s;
+            background-color: $button-pg-2;
+            color: $card-bg-1;
+        }
+    }
+}
