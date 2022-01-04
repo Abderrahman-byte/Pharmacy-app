@@ -2,7 +2,7 @@ import React, { createRef, useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { v4 as uuidV4 } from 'uuid'
 import ProductForm from '../components/ProductForm'
-import { postRequest } from '../utils/http'
+import { postFormData, postRequest } from '../utils/http'
 
 import '../styles/NewProductPage.scss'
 
@@ -35,6 +35,15 @@ const NewProductPage = () => {
         if (!response.ok) {
             setErrors(response.errors || ['Someting went wrong, please try later'])
             return
+        }
+
+        if (images.length > 0) {   
+            const fd = new FormData()
+            images.forEach(img => fd.append('images', img.file))
+
+            const imagesData = await postFormData(`api/products/${response?.data?.id}/images`, fd)
+            
+            if (imagesData.ok && imagesData.data ) data.images = [...imagesData.data]
         }
 
         navigate(`/admin/products/${response?.data?.id}/edit`, {
