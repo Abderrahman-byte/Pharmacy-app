@@ -28,3 +28,21 @@ export const postRequest = async (path, data) => {
 
     return null
 }
+
+export const postFormData = async (path, fd) => {
+    try {
+        const response = await fetch(`${apiHost}/${path}`, {
+            body: fd,
+            method: 'POST',
+            credentials: 'include'
+        })
+
+        const headers = response.headers
+
+        const returnedData = headers.get('Content-Type').includes('json') ? await response.json() : await response.text()
+
+        return returnedData
+    } catch {}
+
+    return null
+}
